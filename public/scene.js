@@ -220,31 +220,15 @@ export class SceneManager {
 
 	update() {
 		this.stats.update();
-		//console.log(this.scene);
-		//this.updatePhysics();
-
-		const groundThreshold = -1; // Threshold below which cubes will fall further down
-		const additionalForce = new CANNON.Vec3(0, -0.1, 0); // Additional downward force
-
 		for (let i = 0; i < this.threeObjects.length; i++) {
 			const object = this.threeObjects[i];
 			const body = this.world.bodies[i];
-
 			if (object && body) {
 				object.position.copy(body.position);
 				object.quaternion.copy(body.quaternion);
-
-				// Check if cube is below the ground threshold
-				if (body.position.y < groundThreshold) {
-					// Apply additional downward force to the cube
-					body.applyForce(additionalForce, body.position);
-				}
 			}
 		}
-		// Render the scene with the camera
 		this.renderer.render(this.scene, this.camera);
-
-		// Call the update method recursively for the next frame
 		requestAnimationFrame(() => this.update());
 	}
 
